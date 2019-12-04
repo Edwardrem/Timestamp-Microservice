@@ -1,98 +1,42 @@
-// init project
-var express = require('express');
-var path = require('path');
-var app = express();
+const express = require('express');
+const router = express.Router();
+const path = require('path');
+const moment = require('moment');
 
-//Use our public files
-app.use(express.static('public'));
+router.get('/', (req, res, next) => res.sendFile(path.join(__dirname, '/index.html')));
 
-app.get("/", function(req, res){
-  res.sendFile(__dirname + '/views/index.html');
-});
+router.get('/:date', (req, res, next) => {
 
-//Returns true if the input is a number
-var isNumeric = function(input) {
-  return !isNaN(parseFloat(input)) && isFinite(input);
-}
+  const formats = [
+    'X',
+    'MMMM D, YYYY',
+    'MMMM D YYYY',
+    'MMM D, YYYY',
+    'MMM D YYYY',
+    'D MMMM YYYY',
+    'D MMM YYYY',
+  ];
 
-//Returns true if the given month is a month
-var validMonth = function(month) {
-  switch(month.toLower())
-      {
-    case "january":
-      break;
-    case "february":
-      break;
-    case "march":
-      break;
-    case "april":
-      break;
-    case "may":
-      break;
-    case "june":
-      break;
-    case "july":
-      break;
-    case "august":
-      break;
-    case "september":
-      break;
-    case "october":
-      break;
-    case "november":
-      break;
-    case "december":
-      break;
+  const date = moment(req.params.date, formats, true);
+
+  let dateObj;
+
+  if (date.isValid()) {
+    dateObj = {
+      unix: Number(date.format('X')),
+      natural: date.format('MMMM D, YYYY')
+    };
+  } else {
+    dateObj = {
+      unix: null,
+      natural: null
+    };
   }
-}
-
-//Returns true if the format is unix, false if natural, and undefined if neither
-var isUnixTimestamp = function(time){
-  if(isNumeric(time))
-  {
-    return true;
-  }
-  //Check date?
-  return false;
-}
-
-//Given a date or unix time, returns an object with both
-var convertTime = function(time){
-  var isUnix = isUnixTimestamp(time);
-  if(isUnix === undefined){
-      return {unix: null, natural: null};
-    }
-  if(isUnix){
-      var date = new Date(parseInt(time));
-      console.log(date);
-      return {unix: time, natural: trimDate(date.toDateString())};
-    }
-  return  {unix: Date.parse(time), natural: time};
-}
-
-//Trims the day off the date. ex: Tuesday January 5, 1999 --> January 5, 1999
-var trimDate = function(dateStr)
-{
-  var i = 0;
-  while(i < dateStr.length && dateStr[i] !== " ")
-    {
-      i++;
-    }
-  i++;
-  return dateStr.substring(i);
-}
-
-//Handle a specific request
-app.get("/:data", function (request, response) {
-  response.sendFile(__dirname + '/views/index.html');
-  //valid url request?
-  if(request.params && Object.keys(request.params).length > 0)
-    {
-      response.write(JSON.stringify(convertTime(request.params.data)));
-    }
-  response.end();
+  res.json(dateObj);
 });
 
-// listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
-});
+// Note 1: Format validation is needed or else moment.js will do interesting things like accept November 31, 2016 and convert it to December 1, 2016 in the returned JSON.
+
+// Note 2: Solely numeric dates (ex. 11-30-16, or most variations thereof) have been excluded in the interest of not discriminating against either the group of people who choose to put their month first or the group of people who choose to put their day first.
+
+module.exports = router;
