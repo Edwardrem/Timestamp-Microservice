@@ -47,8 +47,7 @@ var validMonth = function(month) {
 }
 
 //Returns true if the format is unix, false if natural, and undefined if neither
-var isUnixTimestamp = function(time)
-{
+var isUnixTimestamp = function(time){
   if(isNumeric(time))
   {
     return true;
@@ -58,15 +57,12 @@ var isUnixTimestamp = function(time)
 }
 
 //Given a date or unix time, returns an object with both
-var convertTime = function(time)
-{
+var convertTime = function(time){
   var isUnix = isUnixTimestamp(time);
-  if(isUnix === undefined)
-    {
+  if(isUnix === undefined){
       return {unix: null, natural: null};
     }
-  if(isUnix)
-    {
+  if(isUnix){
       var date = new Date(parseInt(time));
       console.log(date);
       return {unix: time, natural: trimDate(date.toDateString())};
