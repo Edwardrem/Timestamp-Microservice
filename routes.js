@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path');
 const moment = require('moment');
 
-router.get('/', (req, res, next) => res.sendFile(path.join(__dirname, '/index.html')));
+router.get('/', (req, res, next) => res.sendFile(path.join(__dirname, '/views/index.html')));
 
 router.get('/:date', (req, res, next) => {
 
