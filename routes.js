@@ -18,13 +18,11 @@ router.get('/:date', (req, res, next) => {
 
   if (date.isValid()) {
     dateObj = {
-      unix: Number(date.format('X')),
-      natural: date.format('MMMM Do YYYY, h:mm:ss')
+      unix: Number(date.format('X')),natural: date.format('llll [GMT]')
     };
   } else {
     dateObj = {
-      unix: null,
-      natural: null
+      unix: null,natural: null
     };
   }
   res.json(dateObj);
