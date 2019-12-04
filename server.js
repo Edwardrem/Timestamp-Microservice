@@ -87,7 +87,7 @@ var trimDate = function(dateStr)
 }
 
 //Handle a specific request
-app.get("/api/timestamp/:data", function (request, response) {
+app.get("/:data", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
   //valid url request?
   if(request.params && Object.keys(request.params).length > 0)
