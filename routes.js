@@ -9,7 +9,8 @@ router.get('/:date', (req, res, next) => {
 
   const formats = [
     'X',
-    'YYYY-MM-DD'
+    'YYYY-MM-DD',
+    '',
   ];
 
   const date = moment(req.params.date, formats, true);
