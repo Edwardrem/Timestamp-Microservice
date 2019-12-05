@@ -1,5 +1,13 @@
-const express = require('express');
-const app = express();
+var express = require('express');
+var app = express();
+
+
+// We need CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) for our APIs remotely testable by FCC 
+
+var cors = require('cors');
+app.use(cors({optionSuccessStatus: 200}));
+
+
 
 app.get('/api/timestamp/:dateString?', (request, response) => {
   const dateString = request.params.dateString;
@@ -32,7 +40,7 @@ app.get('/', (request, response) => {
   response.sendFile(`${__dirname}/views/index.html`);
 });
 
-const portNumber = process.env.PORT || 8000;
-app.listen(portNumber, () => {
-  console.log(`listening on port ${portNumber}`);
+// listen for requests :)
+var listener = app.listen(process.env.PORT, function () {
+  console.log('Your app is listening on port ' + listener.address().port);
 });
