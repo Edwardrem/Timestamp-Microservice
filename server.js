@@ -42,5 +42,5 @@ app.get('/', (req, res) => {
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
+  console.log('May the force be with us on this port ' + listener.address().port + ' 🚀🚀');
 });
