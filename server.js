@@ -10,12 +10,13 @@ app.use(cors({optionSuccessStatus: 200}));
 app.get('/api/timestamp/:dateString?', (req, res) => {
   const dateString = req.params.dateString;
   let date;
-  // If the date string is empty, it should be equivalent to new Date(), i.e. the service uses the current timestamp.
+  // If the date string is empty, it should be equivalent to new Date() to return the current time in unix format and UTC format
+    // i.e. the service uses the current timestamp.
   if (!dateString) {
     date = new Date();
   } else {
-    // non-empty dateString
-    // if datestring is integer, convert dateString to an integer
+        // If dateString is not empty
+        // If datestring is an integer, convert dateString to an integer
     if (!isNaN(dateString)) {
       date = new Date(parseInt(dateString));
     } else {
