@@ -1,7 +1,6 @@
 var express = require('express');
 var app = express();
 
-
 // We need CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) for our APIs remotely testable by FCC 
 var cors = require('cors');
 app.use(cors({optionSuccessStatus: 200}));
