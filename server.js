@@ -33,7 +33,7 @@ app.get('/api/timestamp/:dateString?', (req, res) => {
 });
 
 
-//Shows our index.html file
+//Shows index.html file
 app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.sendFile(`${__dirname}/views/index.html`);
